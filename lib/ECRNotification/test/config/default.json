@@ -1,0 +1,76 @@
+{
+    "logging": {
+        "escapeValues": false,
+        "level": "ALL",
+        "appenders": {
+            "console": {
+                "type": "stdout",
+                "layout": {
+                    "type": "pattern",
+                    "pattern": "%d{ISO8601_WITH_TZ_OFFSET}|%p|KeystoneIngest|%m"
+                }
+            }
+        },
+        "categories": {
+            "default": {
+                "appenders": [
+                    "console"
+                ],
+                "level": "ALL"
+            }
+        }
+    },
+    "ecrNotification": {
+        "ECRUrlTemplate": "http://catalogapiqa.ap.org/AP.MessageRepository.APIHost/documents/%s",
+        "retries": {
+            "default": 3,
+            "reingest": 1
+        },
+        "retryMissing": true,
+        "populateMissingETag": true
+    },
+    "namespaces": {
+        "atom": "http://www.w3.org/2005/Atom",
+        "directives": "http://www.ap.org/esb/extensions/2013/directives/",
+        "appl": "http://ap.org/schemas/03/2005/appl"
+    },
+    "xpaths": {
+        "ecrNotification": {
+            "feedId": "/atom:feed/atom:id",
+            "feedDateTime": "/atom:feed/atom:updated",
+            "entryId": "/atom:feed/atom:entry[1]/atom:id",
+            "entryDateTime": "/atom:feed/atom:entry[1]/atom:updated",
+            "itemId": "/atom:feed/atom:entry[1]/directives:directive/directives:properties/directives:property[@name='document.itemid']/@value",
+            "version": "/atom:feed/atom:entry[1]/directives:directive/directives:properties/directives:property[@name='document.version']/@value",
+            "products": "/atom:feed/atom:entry[1]/directives:directive/directives:properties/directives:property[@name='document.thisproducts']/@value",
+            "savedSearchIds": "/atom:feed/atom:entry[1]/directives:directive/directives:properties/directives:property[@name='document.thissavedsearchids']/@value",
+            "filingIds": "/atom:feed/atom:entry[1]/directives:directive/directives:properties/directives:property[@name='document.thisfilingid']/@value",
+            "etag": "/atom:feed/atom:entry[1]/directives:directive/directives:properties/directives:property[@name='document.etag']/@value",
+            "title": "/atom:feed/atom:entry[1]/atom:title",
+            "contentLink": "/atom:feed/atom:entry[1]/atom:content/@src",
+            "targets": "/atom:feed/atom:entry[1]/directives:directive/directives:targets/directives:target"
+        },
+        "appl": {
+            "filings": "/appl:Publication/appl:FilingMetadata",
+            "specificFiling": "/appl:Publication/appl:FilingMetadata[appl:Id='%s']",
+            "filingIds": "/appl:Publication/appl:FilingMetadata/appl:Id",
+            "allButFiling": "/appl:Publication/appl:FilingMetadata[appl:Id!='%s']",
+            "products": "appl:Products/appl:Product",
+            "itemId": "/appl:Publication/appl:Identification/appl:ItemId/text()",
+            "recordId": "/appl:Publication/appl:Identification/appl:RecordId/text()",
+            "mediaType": "/appl:Publication/appl:Identification/appl:MediaType/text()",
+            "recordSequenceNumber": "/appl:Publication/appl:Identification/appl:RecordSequenceNumber/text()",
+            "title": "/appl:Publication/appl:NewsLines/appl:Title",
+            "transmissionReference": "/appl:Publication/appl:FilingMetadata/appl:TransmissionReference",
+            "MOSObjSlug": "/appl:Publication/appl:FilingMetadata/appl:ForeignKeys[@System='mosPayload']/appl:Keys[@Field='MOSObjSlugs']/@Id",
+            "contentItemIds": "/appl:Publication/appl:PublicationComponent/*[1]/@Id",
+            "associatedWith": "//appl:AssociatedWith[@LinkType='Item']",
+            "arrivalDateTime": "/appl:Publication/appl:PublicationManagement/appl:ArrivalDateTime",
+            "firstCreatedDateTime": "/appl:Publication/appl:PublicationManagement/appl:FirstCreated",
+            "itemStartDateTime": "/appl:Publication/appl:PublicationManagement/appl:ItemStartDateTime",
+            "provider": "/appl:Publication/appl:AdministrativeMetadata/appl:Provider",
+            "source": "/appl:Publication/appl:AdministrativeMetadata/appl:Source",
+            "itemContentType": "/appl:Publication/appl:AdministrativeMetadata/appl:ItemContentType"
+        }
+    }
+}

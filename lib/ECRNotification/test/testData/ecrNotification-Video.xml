@@ -1,0 +1,28 @@
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title type="text">Ecr Publish Success Notification</title>
+  <id>tag:ap.org,2016-01-15:903f555d2cfd433ca71b8ea3654918f9</id>
+  <updated>2016-03-04T17:58:11</updated>
+  <generator>Ecr Publishing Services (WF)</generator>
+  <entry>
+    <directive role="content" xmlns="http://www.ap.org/esb/extensions/2013/directives/">
+      <properties>
+        <property name="document.itemid" value="a04ca30f49e14a5b9524d6b3f03f018c"/>
+        <property name="document.version" value="0"/>
+        <property name="document.etag" value="c45588c69a1621705302b8ac576937cd"/>
+        <property name="document.products"
+          value="1,6,10092,35529,37894,37895,37897,40437,40438,41987,43848,44632,44636,44638,45150,100288,100357,100358,100362,100414,100483,100530,100547,100889,100890,100913"
+        />
+      </properties>
+    </directive>
+    <id>tag:ecr.ap.org,2016-01-15:a04ca30f49e14a5b9524d6b3f03f018c,0</id>
+    <title type="text">LAPD: Knife Purportedly Found at OJ Simpson Home</title>
+    <updated>2016-01-15T14:21:22Z</updated>
+    <content type="application/vnd.ap.appl+xml"
+      src="http://catalogapiqa.ap.org/AP.MessageRepository.APIHost/Services/MessageRepository.svc/documents/a04ca30f49e14a5b9524d6b3f03f018c/versions/0"/>
+    <source>
+      <author>
+        <name>AP</name>
+      </author>
+    </source>
+  </entry>
+</feed>

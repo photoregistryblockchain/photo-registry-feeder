@@ -1,0 +1,65 @@
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title type="text">Ecr Publish Success Notification</title>
+    <id>tag:pipelineingestion.ap.org,2016-08-24:d8836c9847043bc21f86d416339b86e8,0</id>
+    <updated>2016-08-24T03:32:49Z</updated>
+    <generator>Ecr Publishing Services (WF)</generator>
+    <entry>
+        <directive tag="Text,PI" id="d8836c9847043bc21f86d416339b86e8" role="content" xmlns="http://www.ap.org/esb/extensions/2013/directives/">
+            <hops>
+                <hop begin="2016-08-24T03:32:50Z" end="2016-08-24T03:32:09.597Z" source="AP PipelineIngestion" />
+                <hop begin="2016-08-24T03:32:09.597Z" end="2016-08-24T03:32:15.338Z" source="PipelineIngestionPublisher-Multicast" />
+                <hop begin="2016-08-24T03:32:15.338Z" end="2016-08-24T03:32:21.087Z" source="PublishTopicSubscriber-Multicast" />
+                <hop begin="2016-08-24T03:32:21.087Z" end="2016-08-24T03:32:21.134Z" source="PublishTopicPublisher-Multicast" />
+                <hop begin="2016-08-24T03:32:21.134Z" end="2016-08-24T03:32:33.395Z" source="PublishTopicPublisher-Reply" />
+                <hop begin="2016-08-24T03:32:33.395Z" end="2016-08-24T03:32:33.458Z" source="JaguarCoreSubscriber-Multicast" />
+                <hop begin="2016-08-24T03:32:33.458Z" end="2016-08-24T03:32:34.066Z" source="ClassificationSubscriber-Request" />
+                <hop begin="2016-08-24T03:32:34.066Z" end="2016-08-24T03:32:34.113Z" source="ClassificationSubscriber-Reply" />
+                <hop begin="2016-08-24T03:32:34.113Z" end="2016-08-24T03:32:34.128Z" source="LocationSubscriber-Request" />
+                <hop begin="2016-08-24T03:32:34.128Z" end="2016-08-24T03:32:34.144Z" source="LocationSubscriber-Reply" />
+                <hop begin="2016-08-24T03:32:34.144Z" end="2016-08-24T03:32:34.269Z" source="AspenProductizationSubscriber-Request" />
+                <hop begin="2016-08-24T03:32:34.269Z" end="2016-08-24T03:32:34.284Z" source="AspenProductizationSubscriber-Reply" />
+                <hop begin="2016-08-24T03:32:34.284Z" end="2016-08-24T03:32:35.205Z" source="AspenProfilingSubscriber-Request" />
+                <hop begin="2016-08-24T03:32:35.205Z" end="2016-08-24T03:32:39.487Z" source="AspenProfilingSubscriber-Multicast" />
+                <hop begin="2016-08-24T03:32:39.487Z" end="2016-08-24T03:32:40.462Z" source="NewsMinionSubscriber-Multicast" />
+                <hop begin="2016-08-24T03:32:40.462Z" end="2016-08-24T03:32:45.383Z" source="NewsMinionPublisher-Multicast" />
+                <hop begin="2016-08-24T03:32:45.383Z" source="EnterpriseContentRepositorySubscriber-Request" />
+            </hops>
+            <properties>
+                <property name="jaguar.message.priority" value="Normal" />
+                <property name="document.itemid" value="d8836c9847043bc21f86d416339b86e8" />
+                <property name="document.version" value="0" />
+                <property name="document.thisfilingid" value="19284be3ba5040dfaee9edc30a4522ae" />
+                <property name="document.products" value="100680,100515,100502,100500,100490,100215,100076,100068,45530,45521,45492,45442,45147,44698,43848,43618,41757,40826,39337,37592,37455,37375,31385,30599,30017,3,1" />
+                <property name="document.thisproducts" value="100680,100515,100502,100500,100490,100215,100076,100068,45530,45521,45492,45442,45147,44698,43848,43618,41757,40826,39337,37592,37455,37375,31385,30599,30017,3,1" />
+                <property name="document.thissavedsearchids" value="660769,573648,573630,573644,573574,573606,604733,573646,655587,621719,658454,591865,581254,664938,573426,535293,600948,655819,652663,605905,605911,666355,616936,529646,529591,618619,618828,609953,609664,600521,632386,667645,664313,574459,574464,574377,574458,574462,607401,591212,599978,669636,638009,653765,606926,573670,606917,606922,573691,606919,606920,606925,606918,606921,643952,672191,605931,606312,555407,573095,573055,637902,592496,663988,639821,667909,664908,640868,640869,651334,660961,666361,608893,665881,666832,666820,659260,591184,611597,652185,657246,657424,651759,661275,666642,662383,644459,644460,641159,660560,617819,661763,656850,609329,617745,664422,590507,665610,663482,664555,664208,574649,547661,606843,667459,667387,556633,663271,672195,637990,565650,664924,664942,610448,671369,672564,672567,645126,571516,572153,572159,572778,602673,664186,632857,566016,612660,654421,603965,603973,603978,672448,596872,559958,634309,606052,606056,606053,620935,668718,606940,666368,666107,651581,576677,576676,600197,613365,608596,569477,651119,649213,668170,586726,583011,648412,602557,645868,641047,637862,641178,655976,653764,591070,574969,583490,591316,599682,660546,657712,601892,653116,662070,638088,658216,657346,590347,601039,649202,650389,668006,659227,631887,644812,638548,662040,656333,593938,656329,656278,656339,656340,658297,656709,624854,658075,657396,673355,663325,668697,673449,656704,593460,594392,665339,656754,656756,656771,517428,579861,649126,638680,656642" />
+                <property name="document.etag" value="2ad7a7d5e20bfc2fcb1d98010c524257" />
+            </properties>
+            <targets>
+                <target name="Classification" />
+                <target name="Location" />
+                <target name="Productizer" />
+                <target name="ECR" />
+                <target name="Profiler" />
+                <target name="Alert" />
+                <target name="AutonomyAny" />
+                <target name="ContentCatalog" />
+                <target name="DistributionManager" />
+                <target name="Edge" />
+                <target name="FASTAny" />
+                <target name="Reporting" />
+                <target name="ContentGovernorHash" />
+                <target name="NewsMinion" />
+                <target name="ContentGovernorLink" />
+            </targets>
+        </directive>
+        <id>tag:ecr.ap.org,2016-08-24:d8836c9847043bc21f86d416339b86e8,0</id>
+        <title type="text">Item:d8836c9847043bc21f86d416339b86e8,Version:0</title>
+        <updated>2016-08-24T03:32:49Z</updated>
+        <content type="application/vnd.ap.appl+xml" src="http://catalogapiqa.ap.org/AP.MessageRepository.APIHost/Services/MessageRepository.svc/documents/d8836c9847043bc21f86d416339b86e8/versions/0" />
+        <source>
+            <author>
+                <name>AP</name>
+            </author>
+        </source>
+    </entry>
+</feed>

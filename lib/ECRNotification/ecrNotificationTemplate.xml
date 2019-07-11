@@ -1,0 +1,32 @@
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title type="text">Keystone ECR Notification Template</title>
+    <id></id>
+    <updated></updated>
+    <generator>Keystone Ingester</generator>
+    <entry>
+        <directive role="content" xmlns="http://www.ap.org/esb/extensions/2013/directives/">
+            <properties>
+                <property name="document.itemid" value="" />
+                <property name="document.version" value="" />
+                <property name="document.thisfilingid" value="" />
+                <property name="document.products" value="" />
+                <property name="document.thisproducts" value="" />
+                <property name="document.thissavedsearchids" value="" />
+                <property name="document.etag" value="" />
+            </properties>
+            <targets>
+                <target name="Edge"/>
+                <target name="KeystoneRelatedIngest"/>
+            </targets>
+        </directive>
+        <id></id>
+        <title type="text"></title>
+        <updated></updated>
+        <content type="application/vnd.ap.appl+xml" src=""/>
+        <source>
+            <author>
+                <name>AP</name>
+            </author>
+        </source>
+    </entry>
+</feed>

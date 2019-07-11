@@ -1,0 +1,29 @@
+{
+  "name": "KeystoneDMIngest",
+  "description": "Ingest service for Keystone DM push replacement",
+  "version": "1.0.0",
+  "main": "app.js",
+  "private": true,
+  "dependencies": {
+    "aplogutilities": "file:lib/APLogUtilities",
+    "async": "^2.6.0",
+    "async-lock": "^1.2.0",
+    "aws-sdk": "^2.227.1",
+    "colors": "^1.2.1",
+    "config": "^3.1.0",
+    "debug": "^4.1.1",
+    "ec2-meta": "^0.1.1",
+    "ecrnotification": "file:lib/ECRNotification",
+    "expand-home-dir": "^0.0.3",
+    "getawsclients": "file:lib/GetAWSClients",
+    "libxmljs2": "^0.21.4",
+    "lodash": "^4.17.5",
+    "log4js": "^4.1.0",
+    "moment": "^2.22.1",
+    "request": "^2.85.0",
+    "sqs-consumer": "^5.2.0",
+    "url-parse": "^1.4.0",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {}
+}

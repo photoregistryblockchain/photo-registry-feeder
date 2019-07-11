@@ -1,0 +1,21 @@
+{
+    "sqs": {
+        "profile": "Dev VPC",
+        "region": "us-east-1"
+    },
+    "sns": {
+        "profile": "Dev VPC",
+        "region": "us-east-1"
+    },
+    "dynamo": {
+        "profile": "Dev VPC",
+        "region": "us-east-1"
+    },
+    "s3": {
+        "profile": "Dev VPC",
+        "region": "us-east-1"
+    },
+    "kinesis": {
+        "region": "us-east-1"
+    }
+}

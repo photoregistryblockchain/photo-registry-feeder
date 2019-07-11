@@ -1,0 +1,23 @@
+{
+  "name": "aplogutilities",
+  "version": "1.5.0",
+  "description": "A utility module for properly formatting log messages for AP applications for use in an ELK stack.",
+  "main": "APLogUtilities.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Fred Strauss",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.0",
+    "ec2-meta": "^0.1.1",
+    "lodash": "^4.17.5",
+    "moment": "^2.22.1",
+    "stack-trace": "^0.0.10",
+    "stacktrace-parser": "^0.1.4",
+    "uuid": "^3.2.1"
+  }
+}

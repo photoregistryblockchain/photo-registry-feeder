@@ -1,0 +1,53 @@
+{
+  "messageProcessors": [
+    "photoRegistry",
+    "counting"
+  ],
+  "logging": {
+    "escapeValues": false,
+    "appenders": {
+      "console": {
+        "type": "stdout",
+        "layout": {
+          "type": "pattern",
+          "pattern": "%d|%p|photo-registry-feeder|%m"
+        }
+      },
+      "dateFile": {
+        "type": "dateFile",
+        "filename": "logs/photo-registry-feeder.log",
+        "pattern": "-yyyy-MM-dd",
+        "compress": true,
+        "daysToKeep": 7,
+        "alwaysIncludePattern": false,
+        "layout": {
+          "type": "pattern",
+          "pattern": "%d|%p|photo-registry-feeder|%m"
+        }
+      }
+    },
+    "categories": {
+      "default": {
+        "appenders": [
+          "dateFile"
+        ],
+        "level": "ALL"
+      }
+    }
+  },
+  "sqs": {
+    "inputQueue": "Dev ECR Notification Queue",
+    "Dev ECR Notification Queue": {
+      "profile": "Dev VPC",
+      "region": "us-east-1",
+      "queueName": "keystone-dev-apcapdevelopment-us-east-1-incomingqueue",
+      "visibilityTimeout": 30,
+      "maxMessages": 5,
+      "waitTime": 15,
+      "rawMessages": false,
+      "persistMessages": true,
+      "persistPath": "./notifications",
+      "persistExtension": ".json"
+    }
+  }
+}
