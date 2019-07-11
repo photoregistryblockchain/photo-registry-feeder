@@ -20,6 +20,7 @@
     "lodash": "^4.17.5",
     "log4js": "^4.1.0",
     "moment": "^2.22.1",
+    "orbs-client-sdk": "0.0.6",
     "request": "^2.85.0",
     "sqs-consumer": "^5.2.0",
     "url-parse": "^1.4.0",

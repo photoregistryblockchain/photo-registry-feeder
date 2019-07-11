@@ -4,6 +4,9 @@
     const util = require('util');
     const _ = require('lodash');
     const libxmljs = require('libxmljs2');
+    const request = require('request');
+
+    const { Client, createAccount, argString } = require('orbs-client-sdk');
 
     const logObject = require('aplogutilities');
     const ecrNotification = require('ecrnotification');
@@ -30,6 +33,10 @@
             initializeCallback(null);
         };
 
+        function intersect(array1, array2) {
+            return array1.filter(value => array2.includes(value));
+        }
+
         this.processMessage = function (queueMessageEnvelope, doneWithMessage) {
             let self = this;
 
@@ -51,60 +58,53 @@
             self.logger.info(messageLogFormatter.setMessage("Received ECR notification for item id = %s, RSN = %s, filing ids = %s",
                 notification.itemId, notification.version, notification.filingIds.join(',')).toString());
 
-            notification.getAPPL(notification.ecrNotificationConfig.retries.default, (err, applText, etag, callback) => {
-                if (err) {
-                    doneWithMessage(err);
-                } else {
-                    evaluateMessage.call(self, notification, applText, messageLogFormatter, (err, photoRegistryItem) => {
-                        if (err) {
-                            self.logger.error(messageLogFormatter.setMessage("Error evaluating message for item id = %s, RSN = %s: %s",
-                                notification.itemId, notification.version, err).setErrorLocation(err).toString());
-                            doneWithMessage(err);
-                        }
-                        else if (photoRegistryItem) {
-                            calculatePhotoHash.call(self, notification, photoRegistryItem, messageLogFormatter, (err, photoRegistryItem, photoHash) => {
-                                if (err) {
-                                    self.logger.error(messageLogFormatter.setMessage("Error calculating photo hash for item id = %s, RSN = %s: %s",
-                                        notification.itemId, notification.version, err).setErrorLocation(err).toString());
-                                }
-                                else {
-                                    callBlockChainService.call(self, notification, photoRegistryItem, photoHash, messageLogFormatter, err => {
-                                        if (err) {
-                                            self.logger.error(messageLogFormatter.setMessage("Error calling blockchain service for item id = %s, RSN = %s: %s",
-                                                notification.itemId, notification.version, err).setErrorLocation(err).toString());
-                                        }
-                                        else {
-                                            self.logger.info(messageLogFormatter.setMessage('Successfully processed notification for item id = %s, RSN = %s',
-                                                notification.itemId, notification.version).toString());
-                                        }
-                                        doneWithMessage(null);
-                                    });
-                                }
-                            });
-                        }
-                        else {
-                            doneWithMessage(null);
-                        }
-                    });
-                }
-            });
-            // async.waterfall([
-            //         function (callback) {
-            //             notification.getAPPL(notification.ecrNotificationConfig.retries.default, callback);
-            //         },
-            //         function (applText, etag, callback) {
-            //             evaluateMessage.call(self, notification, applText, messageLogFormatter, callback);
-            //         }
-            //     ],
-            //     function (err) {
-            //         if (err) {
-            //             self.logger.error(messageLogFormatter.setMessage("Error processing notification: %s", err)
-            //                 .setErrorLocation(err).toString());
-            //         } else {
-            //             self.logger.info(messageLogFormatter.setMessage("Successfully processed notification").toString());
-            //         }
-            //         doneWithMessage(err);
-            //     });
+            // filter by product id
+            let includedProducts = intersect(notification.products, self.processorConfig.productIds);
+            if (includedProducts.length > 0) {
+
+                notification.getAPPL(notification.ecrNotificationConfig.retries.default, (err, applText, etag, callback) => {
+                    if (err) {
+                        doneWithMessage(err);
+                    } else {
+                        evaluateMessage.call(self, notification, applText, messageLogFormatter, (err, photoRegistryItem) => {
+                            if (err) {
+                                self.logger.error(messageLogFormatter.setMessage("Error evaluating message for item id = %s, RSN = %s: %s",
+                                    notification.itemId, notification.version, err).setErrorLocation(err).toString());
+                                doneWithMessage(err);
+                            }
+                            else if (photoRegistryItem) {
+                                calculatePhotoHash.call(self, notification, photoRegistryItem, messageLogFormatter, (err, photoRegistryItem, photoHash) => {
+                                    if (err) {
+                                        self.logger.error(messageLogFormatter.setMessage("Error calculating photo hash for item id = %s, RSN = %s: %s",
+                                            notification.itemId, notification.version, err).setErrorLocation(err).toString());
+                                    }
+                                    else {
+                                        callBlockChainService.call(self, notification, photoRegistryItem, photoHash, messageLogFormatter, err => {
+                                            if (err) {
+                                                self.logger.error(messageLogFormatter.setMessage("Error calling blockchain service for item id = %s, RSN = %s: %s",
+                                                    notification.itemId, notification.version, err).setErrorLocation(err).toString());
+                                            }
+                                            else {
+                                                self.logger.info(messageLogFormatter.setMessage('Successfully processed notification for item id = %s, RSN = %s with hash = %s',
+                                                    notification.itemId, notification.version, photoHash).toString());
+                                            }
+                                            doneWithMessage(null);
+                                        });
+                                    }
+                                });
+                            }
+                            else {
+                                doneWithMessage(null);
+                            }
+                        });
+                    }
+                });
+            }
+            else {
+                self.logger.info(messageLogFormatter.setMessage('Notification for item id = %s, RSN = %s does not include required products = %s',
+                    notification.itemId, notification.version, JSON.stringify(self.processorConfig.productIds)).toString());
+                doneWithMessage(null);
+            }
         };
 
         function evaluateMessage(notification, applText, logFormatter, callback) {
@@ -180,14 +180,38 @@
 
         function calculatePhotoHash(notification, registryItem, logFormatter, callback) {
             let self = this;
-            let bogusHash = "hhhhhhbbbbbbbaaaaaaa";
-            callback(null, registryItem, bogusHash);
+
+            let hashServiceRequest = {
+                url: registryItem.url
+            };
+            request.post({
+                url: self.processorConfig.photoHashUrl,
+                json: hashServiceRequest
+            }, function (err, response, body) {
+                if (err) {
+                    callback(err, registryItem, null);
+                }
+                else {
+                    let hash = body;
+                    callback(null, registryItem, hash);
+                }
+            });
         }
 
         function callBlockChainService(notification, registryItem, photoHash, logFormatter, callback) {
             let self = this;
-            // call the blockchain service here
-            callback(null);
+
+            const account = createAccount();
+            const client = new Client(self.processorConfig.blockChainServiceUrl, 6666, 'TEST_NET');
+            let registryJSON = JSON.stringify(registryItem);
+            const [tx, txId] = client.createTransaction(account.publicKey, account.privateKey,
+                "registry", "register", [argString(photoHash), argString(registryJSON)]);
+            client.sendTransaction(tx).then(txResponse => {
+
+                callback(null, txResponse);
+            }).catch(err => {
+                callback(err);
+            });
         }
     }
 }(module.exports));
