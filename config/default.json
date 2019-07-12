@@ -28,7 +28,8 @@
     "categories": {
       "default": {
         "appenders": [
-          "dateFile"
+          "dateFile",
+          "console"
         ],
         "level": "ALL"
       }
@@ -55,7 +56,7 @@
       "region": "us-east-1",
       "queueName": "blockchain-dev-apcapdevelopment-us-east-1",
       "visibilityTimeout": 30,
-      "maxMessages": 1,
+      "maxMessages": 5,
       "waitTime": 15,
       "rawMessages": false,
       "persistMessages": false,
@@ -73,7 +74,7 @@
       "photographerName":  "/appl:Publication/appl:NewsLines/appl:ByLine[@Parametric='PHOTOGRAPHER']",
       "photographerTitle":  "/appl:Publication/appl:NewsLines/appl:ByLine[@Parametric='PHOTOGRAPHER']/@Title",
       "photographerId":  "/appl:Publication/appl:NewsLines/appl:ByLine[@Parametric='PHOTOGRAPHER']/@Id",
-      "credit": "/appl:Publication/appl:NewsLines/appl:Credit",
+      "credit": "/appl:Publication/appl:NewsLines/appl:CreditLine",
       "copyright":  "/appl:Publication/appl:NewsLines/appl:CopyrightLine",
       "caption": "/appl:Publication/appl:PublicationComponent[@Role='Caption']//appl:block/appl:p",
       "filings": "/appl:Publication/appl:FilingMetadata",

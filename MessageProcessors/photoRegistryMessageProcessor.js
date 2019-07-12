@@ -77,6 +77,7 @@
                                     if (err) {
                                         self.logger.error(messageLogFormatter.setMessage("Error calculating photo hash for item id = %s, RSN = %s: %s",
                                             notification.itemId, notification.version, err).setErrorLocation(err).toString());
+                                        doneWithMessage(err);
                                     }
                                     else {
                                         callBlockChainService.call(self, notification, photoRegistryItem, photoHash, messageLogFormatter, err => {
@@ -111,17 +112,17 @@
             let self = this;
 
             try {
-                this.applDoc = libxmljs.parseXml(applText);
+                self.applDoc = libxmljs.parseXml(applText);
             } catch (err) {
                 let message = util.format("Error parsing APPL for item id = %s, RSN = %s: %s",
                     notification.itemId, notification.version, err);
-                this.logger.error(logFormatter.setMessage(message)
+                self.logger.error(logFormatter.setMessage(message)
                     .setErrorLocation(err).toString());
                 return callback(err);
             }
 
             let mediaType = self.applDoc.get(self.xPathConfig.appl['mediaType'], self.namespaceConfig).text();
-            if (mediaType == 'Photo') {
+            if (mediaType === 'Photo') {
                 const applPropertyMap = [
                     {applField: "itemId", registryField: "id"},
                     {applField: "title", registryField: "title"},
@@ -135,16 +136,17 @@
                     {applField: "caption", registryField: "description"}
                 ];
 
+                let previewUrl = `${self.processorConfig.mapiBaseUrl}/${notification.itemId}/preview/preview.jpg`;
                 let contentRegistryItem = {
                     rightModel: rightsModel,
-                    url: `${this.processorConfig.mapiBaseUrl}/${notification.itemId}/preview/preview.jpg`
+                    url: previewUrl
                 };
                 _.each(applPropertyMap, function (applPropertyMapping) {
                     let matchingNode = self.applDoc.get(self.xPathConfig.appl[applPropertyMapping.applField], self.namespaceConfig);
                     if (matchingNode) {
                         let fieldTokens = applPropertyMapping.registryField.split('.');
-                        if (fieldTokens.length == 1) {
-                            if (applPropertyMapping.applField == "firstCreatedDateTime") {
+                        if (fieldTokens.length === 1) {
+                            if (applPropertyMapping.applField === "firstCreatedDateTime") {
                                 contentRegistryItem[fieldTokens[0]] =
                                     matchingNode.attr('Year').value() + "-" +
                                     matchingNode.attr('Month').value() + "-" +
@@ -191,9 +193,12 @@
                 if (err) {
                     callback(err, registryItem, null);
                 }
+                else if (response.statusCode !== 200) {
+                    err = new Error(`phash service returned bad status code: ${response.statusCode}: ${body}`);
+                    callback(err, registryItem, null);
+                }
                 else {
-                    let hash = body;
-                    callback(null, registryItem, hash);
+                    callback(null, registryItem, body);
                 }
             });
         }
@@ -207,7 +212,6 @@
             const [tx, txId] = client.createTransaction(account.publicKey, account.privateKey,
                 "registry", "register", [argString(photoHash), argString(registryJSON)]);
             client.sendTransaction(tx).then(txResponse => {
-
                 callback(null, txResponse);
             }).catch(err => {
                 callback(err);
